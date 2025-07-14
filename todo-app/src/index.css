@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color: #1c002b;
+  color: white;
+}
+
+.tarefa-card {
+  background-color: #2c003f;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+}
+
+.tarefa-card input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
+  accent-color: #00a3ff;
+}
+
+.tarefa-card span {
+  flex: 1;
+  margin-left: 10px;
+  font-size: 1.1rem;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: #ff6b6b;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.app-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #00a3ff;
+}
+
+.form-tarefa {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form-tarefa input {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+}
+
+.form-tarefa button {
+  background-color: #00a3ff;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.form-tarefa button:hover {
+  background-color: #007ecb;
+}
