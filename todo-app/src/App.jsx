@@ -1,5 +1,6 @@
 import React, { useState } from 'react'; // importa useState
-import TarefaCard from './components/TarefaCard';
+import ListaTarefas from './components/ListaTarefas';
+import './App.css';
 
 function App() {
   const [novaTarefa, setNovaTarefa] = useState(''); // armazena o texto digitado
@@ -26,7 +27,8 @@ function App() {
 
   function marcarComoConcluida(index) {
   const novasTarefas = [...tarefas];
-  novasTarefas[index].concluida = true;
+  const tarefaAtual = novasTarefas[index];
+  tarefaAtual.concluida = !tarefaAtual.concluida;
   setTarefas(novasTarefas);
 }
 
@@ -52,23 +54,12 @@ function removerTarefa(index) {
       </div>
 
       {/* Lista de tarefas renderizada com map */}
-      {tarefas.map((tarefa, index) => (
-  <div key={index}>
-    <span style={{
-      textDecoration: tarefa.concluida ? "line-through" : "none"
-    }}>
-      {tarefa.texto}
-    </span>
+      <ListaTarefas
+  tarefas={tarefas}
+  marcarComoConcluida={marcarComoConcluida}
+  removerTarefa={removerTarefa}
+/>
 
-    <button onClick={() => marcarComoConcluida(index)}>
-      ✅
-    </button>
-
-    <button onClick={() => removerTarefa(index)}>
-      🗑
-    </button>
-  </div>
-))}
 
 
     </main>
