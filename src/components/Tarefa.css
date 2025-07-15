@@ -1,0 +1,70 @@
+.tarefa {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eaeaea15;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: background 0.3s ease;
+  color: #EAEAEA;
+  font-size: large;
+}
+
+.tarefa.concluida {
+  background-color: #d0f0c015;
+  text-decoration: line-through;
+  color: #eaeaea75;
+}
+
+.tarefa-botoes {
+  display: flex;
+  gap: 10px;
+}
+
+.tarefa-botoes button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.tarefa-botoes button:hover {
+  transform: scale(1.2);
+}
+
+.prioridade {
+  font-weight: normal;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-right: 8px;
+  text-transform: capitalize;
+}
+
+.prioridade.baixa {
+  background-color: #0d00ff30;
+  color: #eaeaea95;
+}
+
+.prioridade.media {
+  background-color: #ffcc0030;
+  color: #eaeaea95;
+}
+
+.prioridade.alta {
+  background-color: #ff002630;
+  color: #eaeaea95;
+}
+
+.data-limite {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  color: eaeaea95;
+}
+
+.data-limite.atrasada {
+  color: #eaeaea90;
+  font-weight: normal;
+}

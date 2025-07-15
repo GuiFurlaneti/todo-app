@@ -1,0 +1,58 @@
+.app-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #512358;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-family: sans-serif;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-tarefa {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form-tarefa input {
+  flex: 1;
+  padding: 10px;
+  font-size: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  background-color: #eaeaea;
+}
+
+.form-tarefa button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #00a3ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.form-tarefa button:hover {
+  background-color: #007fc2;
+}
+
+.form-tarefa textarea {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 60px;
+}
+
+
