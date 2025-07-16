@@ -1,7 +1,7 @@
-import React, { useState } from 'react'; // importa useState
+import React, { useState, useEffect } from 'react';
 import ListaTarefas from './components/ListaTarefas';
+import FormularioTarefa from './components/FormularioTarefa';
 import './App.css';
-
 
 function App() {
   const [novaTarefa, setNovaTarefa] = useState({
@@ -10,191 +10,175 @@ function App() {
     prioridade: 'media',
     dataLimite: '',
   });
+
   const [tarefas, setTarefas] = useState(() => {
     const salvas = localStorage.getItem('tarefas');
     return salvas ? JSON.parse(salvas) : [];
   });
-  React.useEffect(() => {
+
+  useEffect(() => {
     localStorage.setItem('tarefas', JSON.stringify(tarefas));
   }, [tarefas]);
-  const [filtro, setFiltro] = useState('todas'); // 'todas', 'pendentes' ou 'concluidas'
 
+  const [modoEdicao, setModoEdicao] = useState(false);
+  const [indiceEditando, setIndiceEditando] = useState(null);
+  const [telaAtual, setTelaAtual] = useState('inicio'); // 'inicio', 'adicionar', 'concluidas'
 
+  const [mensagem, setMensagem] = useState('');
 
-  // Função que é chamada ao clicar em "Adicionar"
-const adicionarTarefa = () => {
-  if (novaTarefa.titulo.trim() === '') return;
+  const prioridades = { alta: 3, media: 2, baixa: 1 };
 
-  if (modoEdicao) {
+  const adicionarTarefa = () => {
+    if (novaTarefa.titulo.trim() === '') return;
+
+    if (modoEdicao) {
+      const novasTarefas = [...tarefas];
+      novasTarefas[indiceEditando] = { ...novasTarefas[indiceEditando], ...novaTarefa };
+      setTarefas(novasTarefas);
+      setModoEdicao(false);
+      setIndiceEditando(null);
+
+      setMensagem(modoEdicao ? 'Tarefa atualizada!' : 'Tarefa adicionada com sucesso!');
+
+      setTimeout(() => {
+        setMensagem('');
+      }, 3000);
+      
+    } else {
+      const nova = {
+        id: Date.now(),
+        ...novaTarefa,
+        concluida: false,
+      };
+      setTarefas([...tarefas, nova]);
+
+      setMensagem(modoEdicao ? 'Tarefa atualizada!' : 'Tarefa adicionada com sucesso!');
+
+      // Limpa a mensagem depois de 3 segundos
+      setTimeout(() => {
+        setMensagem('');
+      }, 3000);
+    }
+
+    setNovaTarefa({
+      titulo: '',
+      descricao: '',
+      prioridade: 'media',
+      dataLimite: '',
+    });
+
+    setTelaAtual('inicio'); // volta para tela inicial após adicionar
+
+    setNovaTarefa({
+  titulo: '',
+  descricao: '',
+  prioridade: 'media',
+  dataLimite: '',
+});
+
+setTelaAtual('inicio');
+
+  };
+
+  const marcarComoConcluida = (index) => {
     const novasTarefas = [...tarefas];
-    novasTarefas[indiceEditando] = {
-      ...novasTarefas[indiceEditando],
-      ...novaTarefa,
-    };
+    novasTarefas[index].concluida = !novasTarefas[index].concluida;
     setTarefas(novasTarefas);
-    setModoEdicao(false);
-    setIndiceEditando(null);
-  } else {
-    const nova = {
-      id: Date.now(),
-      ...novaTarefa,
-      concluida: false,
-    };
-    setTarefas([...tarefas, nova]);
+  };
+
+  function removerTarefa(index) {
+    const confirmar = window.confirm('Tem certeza que deseja excluir esta tarefa?');
+
+    if (confirmar) {
+      const novasTarefas = tarefas.filter((_, i) => i !== index);
+      setTarefas(novasTarefas);
+    }
   }
 
-  // Limpa os campos
-  setNovaTarefa({
-    titulo: '',
-    descricao: '',
-    prioridade: 'media',
-    dataLimite: '',
-  });
-};
-
-
-  function marcarComoConcluida(index) {
-  const novasTarefas = [...tarefas];
-  const tarefaAtual = novasTarefas[index];
-  tarefaAtual.concluida = !tarefaAtual.concluida;
-  setTarefas(novasTarefas);
-}
-
-function removerTarefa(index) {
-  const novasTarefas = tarefas.filter((_, i) => i !== index);
-  setTarefas(novasTarefas);
-}
-
-const tarefasFiltradas = tarefas.filter((tarefa) => {
-  const agora = new Date();
-
-  if (filtro === 'pendentes') return !tarefa.concluida;
-
-  if (filtro === 'concluidas') return tarefa.concluida;
-
-  if (filtro === 'atrasadas') {
-    return (
-      !tarefa.concluida &&
-      tarefa.dataLimite &&
-      new Date(tarefa.dataLimite) < agora
-    );
-  }
-
-  return true; // todas
-});
-
-const prioridades = { alta: 3, media: 2, baixa: 1 };
-
-const tarefasOrdenadas = [...tarefasFiltradas].sort((a, b) => {
-  return prioridades[b.prioridade] - prioridades[a.prioridade];
-});
-
-const [modoEdicao, setModoEdicao] = useState(false); // estamos editando?
-const [indiceEditando, setIndiceEditando] = useState(null); // qual tarefa está sendo editada?
-
-function editarTarefa(index) {
-  const tarefaSelecionada = tarefas[index];
-  setNovaTarefa({
-    titulo: tarefaSelecionada.titulo,
-    descricao: tarefaSelecionada.descricao,
-    prioridade: tarefaSelecionada.prioridade,
-    dataLimite: tarefaSelecionada.dataLimite
-  });
-  setIndiceEditando(index);
-  setModoEdicao(true);
-}
-
-const [telaAtual, setTelaAtual] = useState('inicio'); // 'inicio', 'adicionar', 'concluidas'
-
-<div className="menu-inferior">
-  <button onClick={() => setTelaAtual('inicio')}>Início</button>
-  <button onClick={() => setTelaAtual('adicionar')}>Adicionar Tarefa</button>
-  <button onClick={() => setTelaAtual('concluidas')}>Tarefas</button>
-</div>
+  const editarTarefa = (index) => {
+    const tarefaSelecionada = tarefas[index];
+    setNovaTarefa({
+      titulo: tarefaSelecionada.titulo,
+      descricao: tarefaSelecionada.descricao,
+      prioridade: tarefaSelecionada.prioridade,
+      dataLimite: tarefaSelecionada.dataLimite,
+    });
+    setIndiceEditando(index);
+    setModoEdicao(true);
+    setTelaAtual('adicionar');
+  };
 
   return (
     <main className="app-container">
-      <h1>Minhas Tarefas</h1>
-
-      {/* Campo de texto e botão */}
-      <div className="form-tarefa">
-    <input
-      type="text"
-      placeholder="Título da tarefa"
-      value={novaTarefa.titulo}
-      onChange={(e) =>
-        setNovaTarefa({ ...novaTarefa, titulo: e.target.value })
-      }
-    />
-
-    <textarea
-      placeholder="Descrição (opcional)"
-      value={novaTarefa.descricao}
-      onChange={(e) =>
-        setNovaTarefa({ ...novaTarefa, descricao: e.target.value })
-      }
-    />
-
-    <select
-      value={novaTarefa.prioridade}
-      onChange={(e) =>
-        setNovaTarefa({ ...novaTarefa, prioridade: e.target.value })
-      }
-    >
-      <option value="baixa">Baixa</option>
-      <option value="media">Média</option>
-      <option value="alta">Alta</option>
-    </select>
-
-    <input
-      type="datetime-local"
-      value={novaTarefa.dataLimite}
-      onChange={(e) =>
-        setNovaTarefa({ ...novaTarefa, dataLimite: e.target.value })
-      }
-    />
+      <h1>Olá, Gui! ☀️</h1>
+      <p>Que hoje seja um dia muito produtivo</p>
+      {mensagem && <div className="mensagem">{mensagem}</div>}
 
 
-    <button onClick={adicionarTarefa}>Adicionar</button>
+      {telaAtual === 'inicio' && (
+        <>
+          <h2>Atrasadas</h2>
+          <ListaTarefas
+            tarefas={tarefas.filter(t => !t.concluida && t.dataLimite && new Date(t.dataLimite) < new Date())}
+            marcarComoConcluida={marcarComoConcluida}
+            removerTarefa={removerTarefa}
+            editarTarefa={editarTarefa}
+          />
 
+          <h2>Hoje ({new Date().toLocaleDateString('pt-BR')})</h2>
+          <ListaTarefas
+            tarefas={tarefas.filter(t => {
+              const hoje = new Date().toISOString().split('T')[0];
+              return !t.concluida && t.dataLimite?.startsWith(hoje);
+            })}
+            marcarComoConcluida={marcarComoConcluida}
+            removerTarefa={removerTarefa}
+            editarTarefa={editarTarefa}
+          />
+        </>
+      )}
+
+      {telaAtual === 'adicionar' && (
+        <FormularioTarefa
+          novaTarefa={novaTarefa}
+          setNovaTarefa={setNovaTarefa}
+          adicionarTarefa={adicionarTarefa}
+          modoEdicao={modoEdicao}
+        />
+      )}
+
+      {telaAtual === 'concluidas' && (
+        <>
+          <h2>Tarefas Concluídas</h2>
+          <ListaTarefas
+            tarefas={tarefas.filter(t => t.concluida)}
+            marcarComoConcluida={marcarComoConcluida}
+            removerTarefa={removerTarefa}
+            editarTarefa={editarTarefa}
+          />
+        </>
+      )}
+
+      <div className="menu-inferior">
+        <button
+          className={telaAtual === 'inicio' ? 'ativo' : ''}
+          onClick={() => setTelaAtual('inicio')}
+        >
+          🏠 Início
+        </button>
+        <button
+          className={telaAtual === 'adicionar' ? 'ativo' : ''}
+          onClick={() => setTelaAtual('adicionar')}
+        >
+          ➕ Adicionar
+        </button>
+        <button
+          className={telaAtual === 'concluidas' ? 'ativo' : ''}
+          onClick={() => setTelaAtual('concluidas')}
+        >
+          ✅ Tarefas
+        </button>
       </div>
-
-      <div className="filtros">
-      <button onClick={() => setFiltro('todas')}>Todas</button>
-      <button onClick={() => setFiltro('atrasadas')}>Atrasadas</button>
-      <button onClick={() => setFiltro('pendentes')}>Pendentes</button>
-      <button onClick={() => setFiltro('concluidas')}>Concluídas</button>
-    </div>
-
-      <ListaTarefas
-        tarefas={tarefasOrdenadas}
-        marcarComoConcluida={marcarComoConcluida}
-        removerTarefa={removerTarefa}
-        editarTarefa={editarTarefa}
-      />
-{telaAtual === 'inicio' && (
-  <>
-    <h2>Tarefas do dia</h2>
-    {/* lista tarefas de hoje */}
-  </>
-)}
-
-{telaAtual === 'adicionar' && (
-  <>
-    <h2>{modoEdicao ? 'Editar Tarefa' : 'Adicionar Tarefa'}</h2>
-    {/* formulário de inputs */}
-  </>
-)}
-
-{telaAtual === 'concluidas' && (
-  <>
-    <h2>Tarefas Concluídas</h2>
-    {/* lista apenas tarefas concluídas */}
-  </>
-)}
-
-  
-
     </main>
   );
 }

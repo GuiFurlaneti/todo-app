@@ -16,14 +16,6 @@ h1 {
   opacity: 100%;
 }
 
-p {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  text-align: left;
-  color: #eaeaea;
-  opacity: 75%;
-}
-
 .form-tarefa {
   display: flex;
   flex-direction: column;
@@ -87,22 +79,3 @@ p {
   color: #00a3ff;
   border-bottom: 2px solid #00a3ff;
 }
-
-.mensagem {
-  background-color: #28a745;
-  color: white;
-  padding: 12px;
-  border-radius: 8px;
-  text-align: center;
-  margin-bottom: 16px;
-  font-weight: bold;
-  animation: fadeInOut 3s ease;
-}
-
-@keyframes fadeInOut {
-  0% { opacity: 0; transform: translateY(-10px); }
-  10% { opacity: 1; transform: translateY(0); }
-  90% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-10px); }
-}
-
