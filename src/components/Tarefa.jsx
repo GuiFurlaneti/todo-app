@@ -11,7 +11,7 @@ function Tarefa({ tarefa, index, marcarComoConcluida, removerTarefa, editarTaref
     <div>
       <strong>{tarefa.titulo}</strong>
       {tarefa.descricao && (
-        <p style={{ fontSize: '0.9rem', marginTop: '4px' }}>
+        <p style={{ fontSize: '1rem' }}>
           {tarefa.descricao}
         </p>
       )}
@@ -20,7 +20,7 @@ function Tarefa({ tarefa, index, marcarComoConcluida, removerTarefa, editarTaref
       </span>
       {tarefa.dataLimite && (
         <div className={`data-limite`}>
-          Prazo: {new Date(tarefa.dataLimite).toLocaleString('pt-BR')}
+          {new Date(tarefa.dataLimite).toLocaleString('pt-BR')}
         </div>
       )}
     </div>

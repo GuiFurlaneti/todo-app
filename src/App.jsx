@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ListaTarefas from './components/ListaTarefas';
 import FormularioTarefa from './components/FormularioTarefa';
 import './App.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function App() {
   const [novaTarefa, setNovaTarefa] = useState({
@@ -115,16 +116,19 @@ setTelaAtual('inicio');
       {mensagem && <div className="mensagem">{mensagem}</div>}
 
 
-      {telaAtual === 'inicio' && (
-        <>
-          <h2>Atrasadas</h2>
+    {telaAtual === 'inicio' && (
+      <div className="tela-inicio">
+        <div className="coluna">
+          <h2>Atrasada</h2>
           <ListaTarefas
             tarefas={tarefas.filter(t => !t.concluida && t.dataLimite && new Date(t.dataLimite) < new Date())}
             marcarComoConcluida={marcarComoConcluida}
             removerTarefa={removerTarefa}
             editarTarefa={editarTarefa}
           />
+        </div>
 
+        <div className="coluna">
           <h2>Hoje ({new Date().toLocaleDateString('pt-BR')})</h2>
           <ListaTarefas
             tarefas={tarefas.filter(t => {
@@ -135,8 +139,9 @@ setTelaAtual('inicio');
             removerTarefa={removerTarefa}
             editarTarefa={editarTarefa}
           />
-        </>
-      )}
+        </div>
+      </div>
+    )}
 
       {telaAtual === 'adicionar' && (
         <FormularioTarefa
@@ -164,19 +169,22 @@ setTelaAtual('inicio');
           className={telaAtual === 'inicio' ? 'ativo' : ''}
           onClick={() => setTelaAtual('inicio')}
         >
-          🏠 Início
+          <div><i class="bi bi-house-door-fill"></i></div>
+          <span>Início</span>
         </button>
         <button
           className={telaAtual === 'adicionar' ? 'ativo' : ''}
           onClick={() => setTelaAtual('adicionar')}
         >
-          ➕ Adicionar
+          <div><i class="bi bi-plus-circle"></i></div>
+          <span>Adicionar</span>
         </button>
         <button
           className={telaAtual === 'concluidas' ? 'ativo' : ''}
           onClick={() => setTelaAtual('concluidas')}
         >
-          ✅ Tarefas
+          <div><i class="bi bi-check2-circle"></i></div>
+          <span>Tarefas</span>
         </button>
       </div>
     </main>
