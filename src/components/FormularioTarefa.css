@@ -16,6 +16,14 @@ h1 {
   opacity: 100%;
 }
 
+p {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  color: #eaeaea;
+  opacity: 75%;
+}
+
 .form-tarefa {
   display: flex;
   flex-direction: column;
