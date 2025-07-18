@@ -89,7 +89,3 @@ p {
   cursor: pointer;
   transition: background 0.3s ease;
 }
-
-.form-tarefa button:hover {
-  background-color: #007ecb;
-}

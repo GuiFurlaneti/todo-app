@@ -1,37 +1,51 @@
 import './Tarefa.css';
 
 function Tarefa({ tarefa, index, marcarComoConcluida, removerTarefa, editarTarefa }) {
-  // Verifica se está atrasada
-  const estaAtrasada = tarefa.dataLimite && new Date(tarefa.dataLimite) < new Date() && !tarefa.concluida;
+  const estaAtrasada =
+    tarefa.dataLimite &&
+    new Date(tarefa.dataLimite) < new Date() &&
+    !tarefa.concluida;
+
+  const corPrioridade =
+    tarefa.prioridade === 'alta'
+      ? 'prioridade-alta'
+      : tarefa.prioridade === 'media'
+      ? 'prioridade-media'
+      : 'prioridade-baixa';
 
   return (
-  <li
-    className={`tarefa ${tarefa.concluida ? 'concluida' : ''}`}
-  >
-    <div>
-      <strong>{tarefa.titulo}</strong>
-      {tarefa.descricao && (
-        <p style={{ fontSize: '1rem' }}>
-          {tarefa.descricao}
-        </p>
-      )}
-      <span className={`prioridade ${tarefa.prioridade}`}>
-        Prioridade: {tarefa.prioridade}
-      </span>
-      {tarefa.dataLimite && (
-        <div className={`data-limite`}>
-          {new Date(tarefa.dataLimite).toLocaleString('pt-BR')}
-        </div>
-      )}
-    </div>
+    <div className={`tarefa-card ${tarefa.concluida ? 'concluida' : ''}`}>
+      {/* Bolinha de status (toggle de conclusão) */}
+      <div
+        className={`status-bolinha ${tarefa.concluida ? 'ativa' : ''}`}
+        onClick={(e) => {
+          e.stopPropagation(); // evita cliques indesejados em outros elementos
+          marcarComoConcluida(index);
+        }}
+      ></div>
 
-    <div className="tarefa-botoes">
-      <button onClick={() => marcarComoConcluida(index)}>✅</button>
-      <button onClick={() => removerTarefa(index)}>🗑️</button>
-      <button onClick={() => editarTarefa(index)}>✏️</button>
-    </div>
-  </li>
+      {/* Conteúdo clicável para editar */}
+      <div
+        className="tarefa-conteudo"
+        onClick={() => editarTarefa(index)} // só o conteúdo abre a edição
+      >
+        <strong>{tarefa.titulo}</strong>
+        {tarefa.descricao && <p>{tarefa.descricao}</p>}
+        {tarefa.dataLimite && (
+          <span className={`data-limite ${estaAtrasada ? 'atrasada' : ''}`}>
+            {new Date(tarefa.dataLimite).toLocaleDateString('pt-BR', {
+              weekday: 'long',
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            })}
+          </span>
+        )}
+      </div>
 
+      {/* Faixa lateral de prioridade */}
+      <div className={`faixa-prioridade ${corPrioridade}`}></div>
+    </div>
   );
 }
 

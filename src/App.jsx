@@ -82,10 +82,16 @@ setTelaAtual('inicio');
   };
 
   const marcarComoConcluida = (index) => {
-    const novasTarefas = [...tarefas];
-    novasTarefas[index].concluida = !novasTarefas[index].concluida;
-    setTarefas(novasTarefas);
+    setTarefas((tarefasAnteriores) => {
+      const novasTarefas = [...tarefasAnteriores];
+      novasTarefas[index] = {
+        ...novasTarefas[index],
+        concluida: !novasTarefas[index].concluida,
+      };
+      return novasTarefas;
+    });
   };
+
 
   function removerTarefa(index) {
     const confirmar = window.confirm('Tem certeza que deseja excluir esta tarefa?');
@@ -144,12 +150,19 @@ setTelaAtual('inicio');
     )}
 
       {telaAtual === 'adicionar' && (
-        <FormularioTarefa
-          novaTarefa={novaTarefa}
-          setNovaTarefa={setNovaTarefa}
-          adicionarTarefa={adicionarTarefa}
-          modoEdicao={modoEdicao}
-        />
+        <div className="modal-overlay">
+          <div className="modal-conteudo">
+            <button className="fechar-modal" onClick={() => setTelaAtual('inicio')}>
+              ✖
+            </button>
+            <FormularioTarefa
+              novaTarefa={novaTarefa}
+              setNovaTarefa={setNovaTarefa}
+              adicionarTarefa={adicionarTarefa}
+              modoEdicao={modoEdicao}
+            />
+          </div>
+        </div>
       )}
 
       {telaAtual === 'concluidas' && (
