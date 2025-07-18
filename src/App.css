@@ -97,6 +97,11 @@
   cursor: pointer;
 }
 
+.menu-inferior button:hover {
+  color: var(--text-color);
+  opacity: 90%;
+}
+
 .menu-inferior button.ativo {
   font-weight: 500;
   color: var(--text-color);

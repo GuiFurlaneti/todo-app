@@ -81,39 +81,37 @@ setTelaAtual('inicio');
 
   };
 
-  const marcarComoConcluida = (index) => {
-    setTarefas((tarefasAnteriores) => {
-      const novasTarefas = [...tarefasAnteriores];
-      novasTarefas[index] = {
-        ...novasTarefas[index],
-        concluida: !novasTarefas[index].concluida,
-      };
-      return novasTarefas;
-    });
-  };
+const marcarComoConcluida = (id) => {
+  setTarefas((tarefasAnteriores) =>
+    tarefasAnteriores.map((tarefa) =>
+      tarefa.id === id
+        ? { ...tarefa, concluida: !tarefa.concluida }
+        : tarefa
+    )
+  );
+};
 
-
-  function removerTarefa(index) {
-    const confirmar = window.confirm('Tem certeza que deseja excluir esta tarefa?');
-
-    if (confirmar) {
-      const novasTarefas = tarefas.filter((_, i) => i !== index);
-      setTarefas(novasTarefas);
-    }
+const removerTarefa = (id) => {
+  const confirmar = window.confirm('Tem certeza que deseja excluir esta tarefa?');
+  if (confirmar) {
+    setTarefas((tarefasAnteriores) => tarefasAnteriores.filter((t) => t.id !== id));
   }
+};
 
-  const editarTarefa = (index) => {
-    const tarefaSelecionada = tarefas[index];
-    setNovaTarefa({
-      titulo: tarefaSelecionada.titulo,
-      descricao: tarefaSelecionada.descricao,
-      prioridade: tarefaSelecionada.prioridade,
-      dataLimite: tarefaSelecionada.dataLimite,
-    });
-    setIndiceEditando(index);
-    setModoEdicao(true);
-    setTelaAtual('adicionar');
-  };
+const editarTarefa = (id) => {
+  const tarefaSelecionada = tarefas.find((t) => t.id === id);
+  setNovaTarefa({
+    titulo: tarefaSelecionada.titulo,
+    descricao: tarefaSelecionada.descricao,
+    prioridade: tarefaSelecionada.prioridade,
+    dataLimite: tarefaSelecionada.dataLimite,
+  });
+  setIndiceEditando(id);
+  setModoEdicao(true);
+  setTelaAtual('adicionar');
+};
+
+
 
   return (
     <main className="app-container">

@@ -1,6 +1,7 @@
 import './Tarefa.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
-function Tarefa({ tarefa, index, marcarComoConcluida, removerTarefa, editarTarefa }) {
+function Tarefa({ tarefa, id, marcarComoConcluida, removerTarefa, editarTarefa }) {
   const estaAtrasada =
     tarefa.dataLimite &&
     new Date(tarefa.dataLimite) < new Date() &&
@@ -15,20 +16,15 @@ function Tarefa({ tarefa, index, marcarComoConcluida, removerTarefa, editarTaref
 
   return (
     <div className={`tarefa-card ${tarefa.concluida ? 'concluida' : ''}`}>
-      {/* Bolinha de status (toggle de conclusão) */}
       <div
         className={`status-bolinha ${tarefa.concluida ? 'ativa' : ''}`}
         onClick={(e) => {
-          e.stopPropagation(); // evita cliques indesejados em outros elementos
-          marcarComoConcluida(index);
+          e.stopPropagation();
+          marcarComoConcluida(id);
         }}
       ></div>
 
-      {/* Conteúdo clicável para editar */}
-      <div
-        className="tarefa-conteudo"
-        onClick={() => editarTarefa(index)} // só o conteúdo abre a edição
-      >
+      <div className="tarefa-conteudo" onClick={() => editarTarefa(id)}>
         <strong>{tarefa.titulo}</strong>
         {tarefa.descricao && <p>{tarefa.descricao}</p>}
         {tarefa.dataLimite && (
@@ -43,8 +39,20 @@ function Tarefa({ tarefa, index, marcarComoConcluida, removerTarefa, editarTaref
         )}
       </div>
 
-      {/* Faixa lateral de prioridade */}
-      <div className={`faixa-prioridade ${corPrioridade}`}></div>
+      <div 
+        className={`faixa-prioridade ${corPrioridade}`}>
+      </div>
+
+
+      <div
+        className="faixa-deletar"
+        onClick={(e) => {
+          e.stopPropagation();
+          removerTarefa(id);
+        }}
+      >
+        <i className="bi bi-trash3-fill"></i>
+      </div>
     </div>
   );
 }

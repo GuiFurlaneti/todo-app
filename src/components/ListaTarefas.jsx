@@ -1,17 +1,17 @@
 import Tarefa from './Tarefa';
 import './ListaTarefas.css';
 
-function ListaTarefas({ tarefas, marcarComoConcluida, removerTarefa, editarTarefa}) {
+function ListaTarefas({ tarefas, marcarComoConcluida, removerTarefa, editarTarefa }) {
   return (
     <ul className="lista-tarefas">
-      {tarefas.map((tarefa, index) => (
-        <li key={index}>
+      {tarefas.map((tarefa) => (
+        <li key={tarefa.id}>
           <Tarefa
             tarefa={tarefa}
-            index={index}
+            id={tarefa.id}
             marcarComoConcluida={marcarComoConcluida}
             removerTarefa={removerTarefa}
-            editarTarefa={editarTarefa} // <- esse cara agora funciona
+            editarTarefa={editarTarefa}
           />
         </li>
       ))}

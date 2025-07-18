@@ -90,3 +90,37 @@
   opacity: 0.5;
   text-decoration: line-through;
 }
+
+/* Faixa de deletar (lado direito) */
+.faixa-deletar {
+  position: absolute;
+  top: 0;
+  right: -56px; /* escondida fora da tarefa */
+  width: 56px;
+  height: 100%;
+  background-color: #00000041;
+  border-radius: 0 12px 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  opacity: 0;
+  transition: right 0.3s ease, opacity 0.3s ease;
+}
+
+
+.faixa-deletar i {
+  color: #eaeaea90;
+}
+
+.faixa-deletar i:hover {
+  color: #eb53ff;
+}
+
+/* Quando o mouse passa, ela aparece */
+.tarefa-card:hover .faixa-deletar {
+  right: 0;
+  opacity: 1;
+}
