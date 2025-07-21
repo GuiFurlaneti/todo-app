@@ -1,32 +1,5 @@
-.app-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: transparent;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  font-family: sans-serif;
-}
-
-h1 {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
-  text-align: left;
-  color: #eaeaea;
-  opacity: 100%;
-}
-
-p {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  text-align: left;
-  color: #eaeaea;
-  opacity: 75%;
-}
-
 .form-tarefa {
   display: flex;
-  flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
 }
@@ -34,10 +7,22 @@ p {
 .form-tarefa input {
   flex: 1;
   padding: 10px;
-  font-size: 2rem;
-  border: 2px solid #ccc;
+  font-size: 1rem;
+  border: none;
   border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.25);
+  color: var(--text-color);
+}
+
+.form-tarefa button {
   background-color: #eaeaea;
+  border: none;
+  color: #512358;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .form-tarefa button {
@@ -63,4 +48,53 @@ p {
   border-radius: 8px;
   resize: vertical;
   min-height: 60px;
+}
+
+/* --- RESPONSIVIDADE --- */
+
+/* Mobile pequeno (até 480px) */
+@media (max-width: 480px) {
+  .app-container {
+    margin: 20px;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  .form-tarefa input {
+    font-size: 1.2rem;
+  }
+}
+
+/* Mobile grande (481px – 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .app-container {
+    margin: 30px;
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 2.2rem;
+  }
+
+  p {
+    font-size: 1.3rem;
+  }
+
+  .form-tarefa input {
+    font-size: 1.4rem;
+  }
+}
+
+/* Tablet (769px – 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .app-container {
+    max-width: 500px;
+  }
 }

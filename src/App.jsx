@@ -121,14 +121,13 @@ const editarTarefa = (id) => {
   setTelaAtual('adicionar');
 };
 
-
-
   return (
     <main className="app-container">
       <h1>Olá, Gui! ☀️</h1>
       <p>Que hoje seja um dia muito produtivo</p>
       {mensagem && <div className="mensagem">{mensagem}</div>}
 
+    <div className="glow-circle"></div> {/* Aqui está o glow circle! */}
 
     {telaAtual === 'inicio' && (
       <div className="tela-inicio">

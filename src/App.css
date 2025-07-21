@@ -16,21 +16,57 @@
   flex-direction: column;
 }
 
+.app-container {
+  max-width: 100%;
+  margin: 0 25px;
+  background-color: transparent;
+  border-radius: 12px;
+  box-shadow: none;
+  padding: 3rem;
+}
+
+/* GLOW CIRCLE */
+.glow-circle {
+  position: absolute;
+  top: 1%;
+  left: 98%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, #fff, transparent 40%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 10;
+}
+h1 {
+  color: var(--text-color);
+  font-size: 3rem;
+  margin-bottom: 0;
+  text-align: left;
+  font-weight: bold;
+}
+
+h2 {
+    color: var(--text-color);
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+p {
+  color: var(--text-color);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  font-weight: 500;
+  opacity: 75%;
+}
+
 .form-tarefa {
   display: flex;
   flex-direction: column;
   gap: 10px;
   margin-bottom: 20px;
-}
-
-.form-tarefa input {
-  flex: 1;
-  padding: 10px;
-  font-size: 2rem;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.25);
-  color: var(--text-color);
 }
 
 .form-tarefa input::placeholder,
@@ -178,4 +214,82 @@
     top: -12px;
     right: -314px;
     cursor: pointer;
+}
+
+/* --- RESPONSIVIDADE --- */
+
+@media (max-width: 429px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Mobile pequeno (até 480px) */
+@media (max-width: 480px) {
+  .tela-inicio {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  .menu-inferior {
+    gap: 40px;
+    padding: 8px;
+  }
+
+  .menu-inferior button {
+    font-size: 14px;
+  }
+
+  .menu-inferior i {
+    font-size: 22px;
+  }
+
+  .lista-tarefas {
+    gap: 16px;
+  }
+}
+
+/* Mobile grande (481px – 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .tela-inicio {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  h1 {
+    font-size: 2.4rem;
+  }
+
+  p {
+    font-size: 1.3rem;
+  }
+
+  .menu-inferior {
+    gap: 60px;
+    padding: 10px;
+  }
+}
+
+/* Tablet (769px – 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tela-inicio {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  h1 {
+    font-size: 2.6rem;
+  }
+
+  p {
+    font-size: 1.4rem;
+  }
 }

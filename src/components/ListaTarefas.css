@@ -6,3 +6,16 @@
   flex-direction: column;
   gap: 12px;
 }
+
+/* --- RESPONSIVIDADE --- */
+
+/* Mobile e tablet (até 768px) */
+@media (max-width: 768px) {
+  .lista-tarefas {
+    gap: 10px;
+  }
+
+  .lista-tarefas li {
+    width: 100%;
+  }
+}
