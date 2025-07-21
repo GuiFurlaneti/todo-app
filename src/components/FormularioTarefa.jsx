@@ -28,8 +28,12 @@ function FormularioTarefa({ novaTarefa, setNovaTarefa, adicionarTarefa, modoEdic
 
       <input
         type="datetime-local"
-        value={novaTarefa.dataLimite}
-        onChange={(e) => setNovaTarefa({ ...novaTarefa, dataLimite: e.target.value })}
+        value={novaTarefa.dataLimite ? new Date(novaTarefa.dataLimite).toISOString().slice(0, 16) : ''}
+        onChange={(e) => {
+          const d = new Date(e.target.value);
+          d.setHours(23, 59, 59, 999); // sempre final do dia
+          setNovaTarefa({ ...novaTarefa, dataLimite: d.toISOString() }); // SALVA como ISO completo
+        }}
       />
 
       <button onClick={adicionarTarefa}>

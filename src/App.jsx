@@ -27,17 +27,34 @@ function App() {
 
   const [mensagem, setMensagem] = useState('');
 
+  const normalizarData = (data) => {
+    const d = new Date(data);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  };
+
   const prioridades = { alta: 3, media: 2, baixa: 1 };
 
   const adicionarTarefa = () => {
     if (novaTarefa.titulo.trim() === '') return;
 
+    const dataAjustada = novaTarefa.dataLimite
+      ? (() => {
+          const d = new Date(novaTarefa.dataLimite);
+          d.setHours(23, 59, 59, 999); // força final do dia
+          return d.toISOString();
+        })()
+      : '';
+
     if (modoEdicao) {
       const novasTarefas = [...tarefas];
-      novasTarefas[indiceEditando] = { ...novasTarefas[indiceEditando], ...novaTarefa };
+      novasTarefas[indiceEditando] = { 
+        ...novasTarefas[indiceEditando], 
+        ...novaTarefa, 
+        dataLimite: dataAjustada // usa a data ajustada aqui
+      };
+
       setTarefas(novasTarefas);
-      setModoEdicao(false);
-      setIndiceEditando(null);
 
       setMensagem(modoEdicao ? 'Tarefa atualizada!' : 'Tarefa adicionada com sucesso!');
 
@@ -49,8 +66,10 @@ function App() {
       const nova = {
         id: Date.now(),
         ...novaTarefa,
+        dataLimite: dataAjustada, // usa a data ajustada aqui também
         concluida: false,
       };
+
       setTarefas([...tarefas, nova]);
 
       setMensagem(modoEdicao ? 'Tarefa atualizada!' : 'Tarefa adicionada com sucesso!');
@@ -69,15 +88,6 @@ function App() {
     });
 
     setTelaAtual('inicio'); // volta para tela inicial após adicionar
-
-    setNovaTarefa({
-  titulo: '',
-  descricao: '',
-  prioridade: 'media',
-  dataLimite: '',
-});
-
-setTelaAtual('inicio');
 
   };
 
@@ -124,25 +134,32 @@ const editarTarefa = (id) => {
       <div className="tela-inicio">
         <div className="coluna">
           <h2>Atrasada</h2>
-          <ListaTarefas
-            tarefas={tarefas.filter(t => !t.concluida && t.dataLimite && new Date(t.dataLimite) < new Date())}
-            marcarComoConcluida={marcarComoConcluida}
-            removerTarefa={removerTarefa}
-            editarTarefa={editarTarefa}
-          />
+            <ListaTarefas
+              tarefas={tarefas.filter((t) => {
+                if (!t.dataLimite || t.concluida) return false;
+                const hoje = normalizarData(new Date()); // zera horas para comparar apenas o dia
+                const limite = normalizarData(new Date(t.dataLimite));
+                return limite < hoje; // só entra se a data já passou (não o horário do dia)
+              })}
+              marcarComoConcluida={marcarComoConcluida}
+              removerTarefa={removerTarefa}
+              editarTarefa={editarTarefa}
+            />
         </div>
 
         <div className="coluna">
           <h2>Hoje ({new Date().toLocaleDateString('pt-BR')})</h2>
-          <ListaTarefas
-            tarefas={tarefas.filter(t => {
-              const hoje = new Date().toISOString().split('T')[0];
-              return !t.concluida && t.dataLimite?.startsWith(hoje);
-            })}
-            marcarComoConcluida={marcarComoConcluida}
-            removerTarefa={removerTarefa}
-            editarTarefa={editarTarefa}
-          />
+            <ListaTarefas
+              tarefas={tarefas.filter((t) => {
+                if (!t.dataLimite || t.concluida) return false;
+                const hoje = normalizarData(new Date());
+                const limite = normalizarData(new Date(t.dataLimite));
+                return limite.getTime() === hoje.getTime(); // entra só se for hoje
+              })}
+              marcarComoConcluida={marcarComoConcluida}
+              removerTarefa={removerTarefa}
+              editarTarefa={editarTarefa}
+            />
         </div>
       </div>
     )}
