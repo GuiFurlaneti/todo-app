@@ -35,61 +35,47 @@ function App() {
 
   const prioridades = { alta: 3, media: 2, baixa: 1 };
 
-  const adicionarTarefa = () => {
-    if (novaTarefa.titulo.trim() === '') return;
+const adicionarTarefa = () => {
+  if (novaTarefa.titulo.trim() === '') return;
 
-    const dataAjustada = novaTarefa.dataLimite
-      ? (() => {
-          const d = new Date(novaTarefa.dataLimite);
-          d.setHours(23, 59, 59, 999); // força final do dia
-          return d.toISOString();
-        })()
-      : '';
+  const dataAjustada = novaTarefa.dataLimite || '';
 
-    if (modoEdicao) {
+  if (modoEdicao) {
+    const idx = tarefas.findIndex(t => t.id === indiceEditando);
+    if (idx !== -1) {
       const novasTarefas = [...tarefas];
-      novasTarefas[indiceEditando] = { 
-        ...novasTarefas[indiceEditando], 
+      novasTarefas[idx] = { 
+        ...novasTarefas[idx], 
         ...novaTarefa, 
-        dataLimite: dataAjustada // usa a data ajustada aqui
+        dataLimite: dataAjustada
       };
-
       setTarefas(novasTarefas);
-
-      setMensagem(modoEdicao ? 'Tarefa atualizada!' : 'Tarefa adicionada com sucesso!');
-
-      setTimeout(() => {
-        setMensagem('');
-      }, 3000);
-      
-    } else {
-      const nova = {
-        id: Date.now(),
-        ...novaTarefa,
-        dataLimite: dataAjustada, // usa a data ajustada aqui também
-        concluida: false,
-      };
-
-      setTarefas([...tarefas, nova]);
-
-      setMensagem(modoEdicao ? 'Tarefa atualizada!' : 'Tarefa adicionada com sucesso!');
-
-      // Limpa a mensagem depois de 3 segundos
-      setTimeout(() => {
-        setMensagem('');
-      }, 3000);
     }
+    setModoEdicao(false);
+    setIndiceEditando(null);
+    setMensagem('Tarefa atualizada!');
+    setTimeout(() => setMensagem(''), 3000);
+  } else {
+    const nova = {
+      id: Date.now(),
+      ...novaTarefa,
+      dataLimite: dataAjustada,
+      concluida: false,
+    };
+    setTarefas([...tarefas, nova]);
+    setMensagem('Tarefa adicionada com sucesso!');
+    setTimeout(() => setMensagem(''), 3000);
+  }
 
-    setNovaTarefa({
-      titulo: '',
-      descricao: '',
-      prioridade: 'media',
-      dataLimite: '',
-    });
+  setNovaTarefa({
+    titulo: '',
+    descricao: '',
+    prioridade: 'media',
+    dataLimite: '',
+  });
 
-    setTelaAtual('inicio'); // volta para tela inicial após adicionar
-
-  };
+  setTelaAtual('inicio');
+};
 
 const marcarComoConcluida = (id) => {
   setTarefas((tarefasAnteriores) =>
@@ -136,9 +122,8 @@ const editarTarefa = (id) => {
             <ListaTarefas
               tarefas={tarefas.filter((t) => {
                 if (!t.dataLimite || t.concluida) return false;
-                const hoje = normalizarData(new Date()); // zera horas para comparar apenas o dia
-                const limite = normalizarData(new Date(t.dataLimite));
-                return limite < hoje; // só entra se a data já passou (não o horário do dia)
+                const hojeStr = new Date().toISOString().slice(0, 10);
+                return t.dataLimite < hojeStr; // atrasadas
               })}
               marcarComoConcluida={marcarComoConcluida}
               removerTarefa={removerTarefa}
@@ -151,9 +136,8 @@ const editarTarefa = (id) => {
             <ListaTarefas
               tarefas={tarefas.filter((t) => {
                 if (!t.dataLimite || t.concluida) return false;
-                const hoje = normalizarData(new Date());
-                const limite = normalizarData(new Date(t.dataLimite));
-                return limite.getTime() === hoje.getTime(); // entra só se for hoje
+                const hojeStr = new Date().toISOString().slice(0, 10);
+                return t.dataLimite === hojeStr; // hoje
               })}
               marcarComoConcluida={marcarComoConcluida}
               removerTarefa={removerTarefa}
