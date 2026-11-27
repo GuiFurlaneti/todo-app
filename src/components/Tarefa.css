@@ -47,6 +47,8 @@
   flex-direction: column;
   gap: 4px;
   flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .tarefa-conteudo strong {
@@ -137,17 +139,6 @@
   opacity: 1;
 }
 
-/* Telas de toque não têm hover: a faixa de excluir fica sempre visível */
-@media (hover: none) {
-  .tarefa-card {
-    padding-right: 64px;
-  }
-
-  .faixa-deletar {
-    right: 0;
-    opacity: 1;
-  }
-}
 
 /* --- RESPONSIVIDADE --- */
 
@@ -177,5 +168,19 @@
     border-radius: 0 0 12px 12px;
     bottom: 0;
     left: 0;
+  }
+}
+
+/* Telas de toque não têm hover: a faixa de excluir fica sempre visível.
+   Este bloco precisa ficar DEPOIS do media query de 768px: lá o `padding: 12px`
+   anularia o espaço reservado à direita e o texto ficaria por baixo do botão Excluir. */
+@media (hover: none) {
+  .tarefa-card {
+    padding-right: 64px;
+  }
+
+  .faixa-deletar {
+    right: 0;
+    opacity: 1;
   }
 }
