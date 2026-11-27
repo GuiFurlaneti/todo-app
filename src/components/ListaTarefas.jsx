@@ -1,7 +1,11 @@
 import Tarefa from './Tarefa';
 import './ListaTarefas.css';
 
-function ListaTarefas({ tarefas, marcarComoConcluida, removerTarefa, editarTarefa }) {
+function ListaTarefas({ tarefas, vazio, marcarComoConcluida, removerTarefa, editarTarefa }) {
+  if (tarefas.length === 0 && vazio) {
+    return <p className="lista-vazia">{vazio}</p>;
+  }
+
   return (
     <ul className="lista-tarefas">
       {tarefas.map((tarefa) => (

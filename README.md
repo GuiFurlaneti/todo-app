@@ -1,57 +1,62 @@
 # To-Do App (Lista de Tarefas)
 
-Este é um aplicativo de **lista de tarefas** desenvolvido em **React**, com foco em organização pessoal.  
-O projeto permite que o usuário **adicione, edite, conclua e remova tarefas**, com **classificação por prioridade**, **datas-limite** e separação automática entre **tarefas atrasadas**, **do dia atual** e **concluídas**.
+Aplicativo de **lista de tarefas** desenvolvido em **React** como projeto de aprendizado, com foco em organização pessoal.
+Permite **adicionar, editar, concluir e excluir tarefas**, com **prioridade**, **data-limite** e separação automática entre **atrasadas**, **de hoje**, **próximas (ou sem data)** e **concluídas**.
+
+As tarefas ficam **somente no navegador** (LocalStorage): não há servidor, cadastro nem banco de dados.
 
 ---
 
 ## 🖥️ Tecnologias Utilizadas
-- **React.js**
+- **React 19** e **Vite**
 - **JavaScript (ES6+)**
-- **CSS3 (Responsivo e com animações)**
+- **CSS3** (responsivo)
 - **Bootstrap Icons**
-- **LocalStorage (para salvar as tarefas)**
+- **LocalStorage** para salvar as tarefas no próprio navegador
 
 ---
 
 ## 📱 Funcionalidades
-- Adicionar e editar tarefas com **título, descrição, prioridade e data limite**.
-- Separação automática em:
-  - **Atrasadas** (datas já passadas).
-  - **Hoje** (tarefas do dia atual).
-  - **Concluídas** (marcadas pelo usuário).
-- **Persistência de dados no LocalStorage**.
-- **Interface responsiva** (Desktop, Tablet e Mobile).
-- **Menu fixo inferior** para navegação entre páginas.
+- Adicionar e editar tarefas com **título, descrição, prioridade e data-limite**.
+- Separação automática na tela inicial:
+  - **Atrasadas**: data-limite já passou.
+  - **Hoje**: data-limite no dia atual.
+  - **Próximas e sem data**: datas futuras (em ordem) ou tarefas sem data.
+- Tela de **Concluídas**, com opção de reabrir a tarefa.
+- **Persistência no LocalStorage**. Se o armazenamento estiver bloqueado (por exemplo, em navegação privada com restrições), o app continua funcionando e avisa que as tarefas não serão mantidas ao recarregar.
+- Datas comparadas no **fuso horário local** do navegador.
+- **Interface responsiva** (celular, tablet e desktop) e **menu fixo inferior** para navegar entre as telas.
+- **Acessível por teclado**: concluir, editar e excluir funcionam com Tab/Enter, o formulário fecha com Esc e os campos têm rótulos para leitores de tela.
 
 ---
 
 ## 📷 Screenshots
 
-### **Tela Inicial (Tarefas Atrasadas e do Dia)**
-![Tela Inicial](./assets/tela-inicial.png)
+### **Tela Inicial (Atrasadas, Hoje e Próximas)**
+![Tela inicial com as colunas Atrasadas, Hoje e Próximas e sem data](./assets/tela-inicial.png)
 
 ### **Adicionar / Editar Tarefas**
-![Adicionar Tarefa](./assets/adicionar-tarefa.png)
+![Formulário para adicionar tarefa](./assets/adicionar-tarefa.png)
 
 ### **Tarefas Concluídas**
-![Tarefas Concluídas](./assets/tarefas-concluidas.png)
+![Lista de tarefas concluídas](./assets/tarefas-concluidas.png)
 
-> As imagens acima representam as principais telas do sistema em execução.
+> Capturas da aplicação em execução, com tarefas de exemplo.
 
 ---
 
 ## 🚀 Como Rodar o Projeto
 
+Pré-requisito: **Node.js 20 ou superior**.
+
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git 
+git clone https://github.com/GuiFurlaneti/todo-app.git
 ```
-
 
 2. Entre na pasta do projeto:
 ```bash
-cd seu-repositorio
+cd todo-app
 ```
 
 3. Instale as dependências:
@@ -59,15 +64,32 @@ cd seu-repositorio
 npm install
 ```
 
-4. Execute o projeto:
+4. Execute em modo de desenvolvimento:
 ```bash
-npm start
+npm run dev
 ```
 
-**O app rodará em** http://localhost:3000.
+O app rodará em http://localhost:5173.
+
+### Outros comandos
+| Comando | O que faz |
+|---|---|
+| `npm run lint` | Verifica o código com ESLint |
+| `npm run build` | Gera a versão de produção em `dist/` |
+| `npm run preview` | Serve a versão de produção localmente em http://localhost:4173/todo-app/ |
+
+---
+
+## 🌐 Publicação
+
+O build de produção usa o caminho base **`/todo-app/`** (configurado em `vite.config.js`), pensado para o GitHub Pages no endereço `https://guifurlaneti.github.io/todo-app/`.
+
+O workflow `.github/workflows/deploy-pages.yml` executa `npm ci`, lint, build e a publicação no GitHub Pages a cada push na `main` (também permite execução manual). **Para ativar a hospedagem**, nas configurações do repositório escolha **Settings → Pages → Build and deployment → Source: GitHub Actions**. Se o endereço mudar, ajuste o `base` em `vite.config.js`.
+
+---
 
 ## 📄 Licença
-Este projeto está sob a licença MIT - sinta-se à vontade para utilizar e modificar.
+Este projeto está disponível sob a [licença MIT](LICENSE).
 
 ## 👨‍💻 Autor
 **Guilherme Furlaneti** -
@@ -78,4 +100,3 @@ _Desenvolvedor Full Stack_
 * 📱 Telefone: (11) 98768-8538
 * 💼 LinkedIn: https://linkedin.com/in/gui-furlaneti
 * 💻 GitHub: https://github.com/GuiFurlaneti
-* 🌐 Portfólio: https://guifurlaneti.github.io/portfolio
