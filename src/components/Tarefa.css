@@ -9,7 +9,8 @@
   position: relative;
   cursor: pointer;
   transition: transform 0.2s ease, background 0.3s ease;
-  min-width: 260px;
+  min-width: 0;
+  overflow: hidden; /* a faixa de excluir escondida não deve criar rolagem horizontal */
 }
 
 .tarefa-card:hover {
@@ -19,13 +20,20 @@
 
 /* Bolinha de status (toggle de conclusão) */
 .status-bolinha {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
   border: 2px solid #eaeaea;
   border-radius: 50%;
-  margin-top: 4px;
+  margin-top: 2px;
   cursor: pointer;
   flex-shrink: 0;
+}
+
+.status-bolinha.ativa {
+  background-color: #eb53ff;
+  border-color: #eb53ff;
 }
 
 .status-bolinha:hover {
@@ -108,6 +116,9 @@
   cursor: pointer;
   opacity: 0;
   transition: right 0.3s ease, opacity 0.3s ease;
+  border: none;
+  padding: 0;
+  font-family: inherit;
 }
 
 
@@ -119,10 +130,23 @@
   color: #eb53ff;
 }
 
-/* Quando o mouse passa, ela aparece */
-.tarefa-card:hover .faixa-deletar {
+/* Quando o mouse passa (ou o foco do teclado entra no card), ela aparece */
+.tarefa-card:hover .faixa-deletar,
+.tarefa-card:focus-within .faixa-deletar {
   right: 0;
   opacity: 1;
+}
+
+/* Telas de toque não têm hover: a faixa de excluir fica sempre visível */
+@media (hover: none) {
+  .tarefa-card {
+    padding-right: 64px;
+  }
+
+  .faixa-deletar {
+    right: 0;
+    opacity: 1;
+  }
 }
 
 /* --- RESPONSIVIDADE --- */
