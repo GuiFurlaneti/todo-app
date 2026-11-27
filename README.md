@@ -89,7 +89,7 @@ A publicação automática **ainda não está configurada**. Para publicar, bast
 ---
 
 ## 📄 Licença
-Este projeto está sob a licença MIT - sinta-se à vontade para utilizar e modificar.
+Licença **pendente de definição pelo autor**: o repositório ainda não possui arquivo `LICENSE`. Até essa decisão, consulte o autor antes de reutilizar o código.
 
 ## 👨‍💻 Autor
 **Guilherme Furlaneti** -
