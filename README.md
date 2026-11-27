@@ -84,7 +84,7 @@ O app rodará em http://localhost:5173.
 
 O build de produção usa o caminho base **`/todo-app/`** (configurado em `vite.config.js`), pensado para o GitHub Pages no endereço `https://guifurlaneti.github.io/todo-app/`.
 
-A publicação automática **ainda não está configurada**. Para publicar, basta enviar o conteúdo de `dist/` para o GitHub Pages (por exemplo, com um workflow oficial de Pages via GitHub Actions). Se o endereço mudar, ajuste o `base` em `vite.config.js`.
+O workflow `.github/workflows/deploy-pages.yml` executa `npm ci`, lint, build e a publicação no GitHub Pages a cada push na `main` (também permite execução manual). **Para ativar a hospedagem**, nas configurações do repositório escolha **Settings → Pages → Build and deployment → Source: GitHub Actions**. Se o endereço mudar, ajuste o `base` em `vite.config.js`.
 
 ---
 
